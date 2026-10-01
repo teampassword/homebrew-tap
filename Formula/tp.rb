@@ -1,8 +1,9 @@
 class Tp < Formula
   desc "TeamPassword CLI for AI agents and automated tools"
   homepage "https://github.com/teampassword/teampassword_cli_crystal"
-  # Private repo: cloned with the installer's own GitHub credentials.
-  url "https://github.com/teampassword/teampassword_cli_crystal.git",
+  # Private repo: cloned over SSH with the installer's own GitHub key.
+  url "ssh://git@github.com/teampassword/teampassword_cli_crystal.git",
+      using:    :git,
       tag:      "v0.1.0",
       revision: "37af81d3824d3bd91add7fd98c7a5b2e14079748"
 
