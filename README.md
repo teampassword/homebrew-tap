@@ -1,37 +1,22 @@
-# TeamPassword Homebrew tap (private)
-
-Requires read access to the `teampassword` GitHub organization: both this
-tap and the formula's source repository are private and are cloned with
-your own GitHub credentials.
-
-## Before you install: GitHub access
-
-The formula downloads the private source over **SSH**, so you need an SSH
-key registered with GitHub that can read the `teampassword` repos. Check:
+# TeamPassword Homebrew tap
 
 ```bash
-ssh -T git@github.com
-```
-
-- **You use SSH with GitHub**: tap over SSH, since `brew tap` defaults to HTTPS:
-  ```bash
-  brew tap teampassword/tap git@github.com:teampassword/homebrew-tap.git
-  ```
-- **You only use HTTPS** (saved credentials or `gh auth login`): send the
-  SSH source URL over HTTPS instead, then tap normally:
-  ```bash
-  git config --global url."https://github.com/teampassword/".insteadOf "ssh://git@github.com/teampassword/"
-  ```
-
-```bash
-brew tap teampassword/tap https://github.com/teampassword/homebrew-tap.git
 brew install teampassword/tap/tp
 ```
 
 Upgrade with `brew update && brew upgrade tp`.
 
+Requires macOS 15 (Sequoia) or newer on Apple Silicon, or macOS 13 (Ventura)
+or newer on Intel.
+
 ## Releasing a new version
 
-1. Tag the source repo (`git tag v0.2.0 && git push origin v0.2.0`).
-2. In `Formula/tp.rb`, update `tag:` and `revision:` (the tagged commit's full SHA).
-3. Commit and push this repo.
+1. Bump `version` in the source repository's `shard.yml`, commit and push.
+2. On an Apple Silicon Mac and on an Intel Mac, run `./scripts/build-release.sh`
+   in the source repository. Each run prints the archive path
+   (`dist/tp-<version>-darwin-<arch>.tar.gz`) and its SHA-256.
+3. In this repository, create a GitHub release tagged `v<version>` and attach
+   both archives.
+4. In `Formula/tp.rb`, update `version`, both `url`s and both `sha256`s.
+   If the arm64 build was made on a newer macOS, raise its `depends_on macos:`.
+5. Commit and push this repository.
